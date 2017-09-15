@@ -1,0 +1,24 @@
+clear all;
+%X =  rdmseed('a.miniseed','debug');
+[Data] =  rdmseed('z.miniseed','debug');
+
+%the lenght of Data structure
+dsize = length(Data);
+n = 1;
+for m = 1 : dsize
+    dlen = length(Data(m).d);
+    ddlen = length(Data(m).dd);
+    if (dlen ~= ddlen)
+        rec(n) = m - 1;
+        seq = sprintf('%s',Data(m).SequenceNumber);
+        n = n+1;
+    end
+end
+seq = seq';
+rec = rec';
+
+%output
+fp = fopen ('error_xq.txt','wt');
+formatSpec = '%d\n';
+fprintf (fp,formatSpec,rec);
+fclose(fp);
